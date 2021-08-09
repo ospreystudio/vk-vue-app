@@ -44,7 +44,8 @@ export default {
     tasks() {
       return this.$store.getters.tasks
     }
-  }
+  },
+
 }
 </script>
 

@@ -10,8 +10,8 @@
     </div>
     <div class="chips" ref="chips"></div>
     <div class="input-field">
-      <textarea id="description" class="materialize-textarea" v-model="description"></textarea>
-      <label for="description">Textarea</label>
+      <textarea style="min-height: 150px" id="description" class="materialize-textarea" v-model="description"></textarea>
+      <label for="description">Description</label>
       <span class="character-counter" style="font-size: 12px; float: right">{{description.length}}/2048</span>
     </div>
     <input type="text" ref="datepicker">
