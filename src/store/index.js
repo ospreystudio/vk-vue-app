@@ -5,13 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tasks: JSON.parse(localStorage.getItem('tasks') || '[]')
+    // пустой массив в строковом формате, что бы вдруг не было ошибки
+    // (что бы json смог распарсить его)
+    tasks: JSON.parse(localStorage.getItem('tasks') || '[]').map(task => {
+      if (new Date(task.date) < new Date()) {
+        task.status = 'outdated'
+      }
+      return task
+    })
   },
   mutations: {
     createTask(state, task) {
       state.tasks.push(task)
 
-      localStorage.setItem('state', JSON.stringify(state.tasks))
+      localStorage.setItem('tasks', JSON.stringify(state.tasks))
     },
     updateTask(state, {id, description, date}) {
       const tasks = state.tasks.concat()
@@ -21,13 +28,13 @@ export default new Vuex.Store({
 
       tasks[idx] = {...task, date, description, status}
       state.tasks = tasks
-      localStorage.setItem('state', JSON.stringify(state.tasks))
+      localStorage.setItem('tasks', JSON.stringify(state.tasks))
     },
 
     completeTask(state, id) {
       const idx = state.tasks.findIndex(t => t => t.id === id)
       state.tasks[idx].status = 'completed'
-      localStorage.setItem('state', JSON.stringify(state.tasks))
+      localStorage.setItem('tasks', JSON.stringify(state.tasks))
     }
   },
   actions: {
