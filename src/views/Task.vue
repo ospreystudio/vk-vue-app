@@ -11,7 +11,8 @@
       <span class="character-counter" style="font-size: 12px; float: right">{{description.length}}/2048</span>
     </div>
     <input type="text" ref="datepicker">
-    <button class="btn" type="submit"> Create task </button>
+    <button class="btn" type="submit" style="margin-right: 1rem"> Update </button>
+    <button class="btn blue" type="button"> Complete task </button>
   </form>
   </div>
   <p v-else> Task not found </p>
@@ -42,7 +43,7 @@ export default {
     })
     this.date = M.Datepicker.init(this.$refs.datepicker, {
       format: 'dd.mm.yyyy',
-      defaultDate: new Date(),
+      defaultDate: new Date(this.task.date),
       setDefaultDate: true
     })
     setTimeout(() => {
@@ -51,7 +52,11 @@ export default {
   },
   methods: {
     submitHandler() {
-      this.$store.dispatch('createTask', task)
+      this.$store.dispatch('updateTask',{
+        id: this.task.id,
+        description: this.description,
+        date: this.date.date
+      })
       this.$router.push('/list')
     }
   },
